@@ -83,6 +83,22 @@ export interface NodeData {
   // Advanced settings
   streamResponse?: boolean;
   responseFormat?: string;
+  // Sales Assistant properties
+  responseType?: string;
+  industry?: string;
+  useCases?: string[];
+  // Lead Qualifier properties
+  scoringModel?: string;
+  leadSource?: string;
+  integrationTarget?: string;
+  // Social Media Analyzer properties
+  platforms?: string[];
+  analysisType?: string;
+  updateFrequency?: string;
+  reportFormat?: string;
+  // Personalization Engine properties
+  dataSource?: string;
+  targetChannel?: string;
 }
 
 export interface WorkflowData {
@@ -126,6 +142,7 @@ export function getNodeColor(type: string): string {
 
 // Node definitions (pre-built nodes)
 export const allNodeDefinitions: NodeDefinition[] = [
+  // AI Models
   {
     type: 'gpt4',
     label: 'GPT-4 Model',
@@ -139,6 +156,23 @@ export const allNodeDefinitions: NodeDefinition[] = [
       temperature: 0.7,
       maxTokens: 2048,
       modelVersion: 'gpt-4-turbo',
+      streamResponse: true,
+      responseFormat: 'text'
+    }
+  },
+  {
+    type: 'claude',
+    label: 'Claude Model',
+    category: 'ai',
+    color: 'nodeBlue',
+    defaultData: {
+      label: 'Claude Model',
+      color: 'nodeBlue',
+      name: 'Claude Market Researcher',
+      systemPrompt: 'You are a market research specialist. Analyze trends and provide strategic insights based on data.',
+      temperature: 0.5,
+      maxTokens: 4096,
+      modelVersion: 'claude-3-opus',
       streamResponse: true,
       responseFormat: 'text'
     }
@@ -393,6 +427,66 @@ export const allNodeDefinitions: NodeDefinition[] = [
       name: 'API Webhook',
       webhookUrl: 'https://example.com/webhook',
       method: 'POST'
+    }
+  },
+  {
+    type: 'sales-assistant',
+    label: 'Sales Assistant',
+    category: 'sales',
+    color: 'nodeBlue',
+    defaultData: {
+      label: 'Sales Assistant',
+      color: 'nodeBlue',
+      name: 'AI Sales Coach',
+      responseType: 'email-suggestion',
+      targetAudience: 'enterprise',
+      industry: 'technology',
+      useCases: ['objection-handling', 'follow-up']
+    }
+  },
+  {
+    type: 'lead-qualifier',
+    label: 'Lead Qualifier',
+    category: 'sales',
+    color: 'nodeGreen',
+    defaultData: {
+      label: 'Lead Qualifier',
+      color: 'nodeGreen',
+      name: 'Lead Score Engine',
+      scoringModel: 'BANT',
+      minimumScore: 75,
+      leadSource: 'website',
+      integrationTarget: 'salesforce'
+    }
+  },
+  {
+    type: 'social-media-analyzer',
+    label: 'Social Media Analyzer',
+    category: 'marketing',
+    color: 'nodeAmber',
+    defaultData: {
+      label: 'Social Media Analyzer',
+      color: 'nodeAmber',
+      name: 'Social Trend Detector',
+      platforms: ['twitter', 'linkedin', 'instagram'],
+      analysisType: 'sentiment',
+      updateFrequency: 'daily',
+      reportFormat: 'dashboard'
+    }
+  },
+  {
+    type: 'personalization-engine',
+    label: 'Personalization Engine',
+    category: 'marketing',
+    color: 'primary',
+    defaultData: {
+      label: 'Personalization Engine',
+      color: 'primary',
+      name: 'Content Personalizer',
+      personalizationLevel: 'segment',
+      dataSource: 'crm',
+      outputFormat: 'dynamic-content',
+      targetChannel: 'email'
     }
   }
 ];

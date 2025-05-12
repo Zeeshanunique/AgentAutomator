@@ -42,6 +42,7 @@ export function ThemeProvider({
         : "light";
       
       root.classList.add(systemTheme);
+      localStorage.setItem(storageKey, systemTheme);
       return;
     }
     
@@ -49,7 +50,16 @@ export function ThemeProvider({
     
     // Force an update to all tailwind components that rely on these classes
     document.dispatchEvent(new CustomEvent('theme-change', { detail: theme }));
-  }, [theme]);
+    
+    // Apply colors to CSS variables for components that don't use classes directly
+    if (theme === 'dark') {
+      document.documentElement.style.setProperty('--background', '#0f172a'); // dark blue-gray
+      document.documentElement.style.setProperty('--foreground', '#f8fafc'); // light gray
+    } else {
+      document.documentElement.style.setProperty('--background', '#f9fafb'); // light gray
+      document.documentElement.style.setProperty('--foreground', '#0f172a'); // dark blue-gray
+    }
+  }, [theme, storageKey]);
 
   const value = {
     theme,

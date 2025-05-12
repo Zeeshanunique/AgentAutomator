@@ -31,11 +31,8 @@ export default function Sidebar() {
     );
   };
 
-  const recentlyUsedNodes = [
-    allNodeDefinitions.find(node => node.type === "gpt4"),
-    allNodeDefinitions.find(node => node.type === "crm"),
-    allNodeDefinitions.find(node => node.type === "email")
-  ].filter(Boolean) as NodeDefinition[];
+  // Recently used nodes would be dynamically tracked from user interactions
+  // This will be implemented with actual usage tracking in the future
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!isSidebarCollapsed);
@@ -146,18 +143,7 @@ export default function Sidebar() {
         />
       </div>
 
-      {/* Recently used components */}
-      <div className="border-t border-gray-700 p-4">
-        <h3 className="text-xs font-medium text-gray-400 mb-3">RECENTLY USED</h3>
-        <div className="space-y-2">
-          {recentlyUsedNodes.map((node) => (
-            <div key={node.type} className="flex items-center text-sm text-gray-300 hover:text-white">
-              <div className={`w-1.5 h-4 rounded-sm mr-2 bg-${node.color}`}></div>
-              <span>{node.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Footer section can be added here in the future */}
     </aside>
   );
 }
