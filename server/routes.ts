@@ -1,25 +1,39 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertWorkflowSchema } from "@shared/schema";
+import { insertWorkflowSchema, insertApiKeySchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API Routes for the workflow builder
   const apiRouter = express.Router();
   
-  // API settings and keys
-  let openaiApiKey: string | null = null;
+  // Default user ID for demo/single user mode
+  const DEFAULT_USER_ID = 1;
 
-  // API key settings endpoint
+  // API key settings endpoint - store OpenAI API key in the database
   apiRouter.post("/settings/apikey", async (req, res) => {
     try {
       const { openai } = req.body;
-      if (openai) {
-        openaiApiKey = openai;
-        res.status(200).json({ message: "API key saved successfully" });
+      if (!openai) {
+        return res.status(400).json({ message: "Invalid API key" });
+      }
+      
+      // Check if we already have an OpenAI API key for this user
+      const existingApiKey = await storage.getApiKey(DEFAULT_USER_ID, 'openai');
+      
+      if (existingApiKey) {
+        // Update the existing key
+        const updatedApiKey = await storage.updateApiKey(DEFAULT_USER_ID, 'openai', openai);
+        return res.status(200).json({ message: "API key updated successfully" });
       } else {
-        res.status(400).json({ message: "Invalid API key" });
+        // Create a new key entry
+        const apiKey = await storage.createApiKey({
+          userId: DEFAULT_USER_ID,
+          provider: 'openai',
+          apiKey: openai
+        });
+        return res.status(201).json({ message: "API key saved successfully" });
       }
     } catch (error) {
       res.status(500).json({ message: "Failed to save API key" });
@@ -29,16 +43,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get current API key status (masked)
   apiRouter.get("/settings/apikey", async (req, res) => {
     try {
+      const openaiApiKey = await storage.getApiKey(DEFAULT_USER_ID, 'openai');
+      
       res.json({ 
-        hasOpenAI: !!openaiApiKey 
+        hasOpenAI: !!openaiApiKey
       });
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch API key status" });
     }
   });
 
+  // Get API key (for internal use, returns the actual key)
+  async function getStoredApiKey(provider: string): Promise<string | null> {
+    try {
+      const apiKeyRecord = await storage.getApiKey(DEFAULT_USER_ID, provider);
+      return apiKeyRecord ? apiKeyRecord.apiKey : null;
+    } catch (error) {
+      console.error(`Error retrieving ${provider} API key:`, error);
+      return null;
+    }
+  }
+
   // OpenAI completion endpoint (server-side proxy)
   apiRouter.post("/ai/completion", async (req, res) => {
+    const openaiApiKey = await getStoredApiKey('openai');
+    
     if (!openaiApiKey) {
       return res.status(400).json({ error: { message: "OpenAI API key not configured on server" } });
     }
@@ -66,6 +95,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // OpenAI image generation endpoint (server-side proxy)
   apiRouter.post("/ai/image", async (req, res) => {
+    const openaiApiKey = await getStoredApiKey('openai');
+    
     if (!openaiApiKey) {
       return res.status(400).json({ error: { message: "OpenAI API key not configured on server" } });
     }
