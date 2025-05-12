@@ -9,6 +9,8 @@ export default function Sidebar() {
   const { isSidebarCollapsed, setSidebarCollapsed } = useWorkflowStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
+    "Sales Tools": true,
+    "Marketing Tools": true,
     "AI Models": true,
     "Data Sources": true,
     "Processing": true,
@@ -95,6 +97,22 @@ export default function Sidebar() {
 
       {/* Component categories and items */}
       <div className="flex-1 overflow-y-auto px-2 py-2 space-y-4">
+        {/* Sales Tools Category */}
+        <CategorySection 
+          title="Sales Tools" 
+          isExpanded={expandedCategories["Sales Tools"]} 
+          onToggle={() => toggleCategory("Sales Tools")}
+          nodes={getCategoryNodes("sales")}
+        />
+
+        {/* Marketing Tools Category */}
+        <CategorySection 
+          title="Marketing Tools" 
+          isExpanded={expandedCategories["Marketing Tools"]} 
+          onToggle={() => toggleCategory("Marketing Tools")}
+          nodes={getCategoryNodes("marketing")}
+        />
+
         {/* AI Models Category */}
         <CategorySection 
           title="AI Models" 

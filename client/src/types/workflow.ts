@@ -1,6 +1,6 @@
 import { Node, Edge } from 'reactflow';
 
-export type NodeCategory = 'ai' | 'data' | 'processing' | 'output';
+export type NodeCategory = 'ai' | 'data' | 'processing' | 'output' | 'sales' | 'marketing';
 
 export interface NodeDefinition {
   type: string;
@@ -62,6 +62,24 @@ export interface NodeData {
   targetWordCount?: number;
   seoKeywords?: string[];
   includeImages?: boolean;
+  // Lead Generator properties
+  targetAudience?: string;
+  minimumScore?: number;
+  outputFormat?: string;
+  // Outreach Sequence properties
+  steps?: number;
+  channel?: string;
+  followUpDays?: number;
+  personalizationLevel?: string;
+  // Sales Analytics properties
+  metrics?: string[];
+  period?: string;
+  visualization?: string;
+  // Google Sheets properties
+  sheetId?: string;
+  range?: string;
+  authentication?: string;
+  refreshInterval?: string;
   // Advanced settings
   streamResponse?: boolean;
   responseFormat?: string;
@@ -128,7 +146,7 @@ export const allNodeDefinitions: NodeDefinition[] = [
   {
     type: 'ad-generator',
     label: 'Ad Generator',
-    category: 'ai',
+    category: 'marketing',
     color: 'primary',
     defaultData: {
       label: 'Ad Generator',
@@ -144,7 +162,7 @@ export const allNodeDefinitions: NodeDefinition[] = [
   {
     type: 'campaign-planner',
     label: 'Campaign Planner',
-    category: 'ai',
+    category: 'marketing',
     color: 'nodeBlue',
     defaultData: {
       label: 'Campaign Planner',
@@ -160,7 +178,7 @@ export const allNodeDefinitions: NodeDefinition[] = [
   {
     type: 'content-writer',
     label: 'Content Writer',
-    category: 'ai',
+    category: 'marketing',
     color: 'nodeAmber',
     defaultData: {
       label: 'Content Writer',
@@ -171,6 +189,65 @@ export const allNodeDefinitions: NodeDefinition[] = [
       targetWordCount: 1200,
       seoKeywords: [],
       includeImages: true
+    }
+  },
+  {
+    type: 'lead-generator',
+    label: 'Lead Generator',
+    category: 'sales',
+    color: 'nodeGreen',
+    defaultData: {
+      label: 'Lead Generator',
+      color: 'nodeGreen',
+      name: 'Sales Lead Generator',
+      source: 'google-sheets',
+      targetAudience: 'enterprise',
+      minimumScore: 80,
+      outputFormat: 'prioritized'
+    }
+  },
+  {
+    type: 'outreach-sequence',
+    label: 'Outreach Sequence',
+    category: 'sales',
+    color: 'nodeBlue',
+    defaultData: {
+      label: 'Outreach Sequence',
+      color: 'nodeBlue',
+      name: 'Sales Outreach Sequence',
+      steps: 3,
+      channel: 'email',
+      followUpDays: 3,
+      personalizationLevel: 'high'
+    }
+  },
+  {
+    type: 'sales-analytics',
+    label: 'Sales Analytics',
+    category: 'sales',
+    color: 'primary',
+    defaultData: {
+      label: 'Sales Analytics',
+      color: 'primary',
+      name: 'Sales Performance Analyzer',
+      metrics: ['conversion', 'revenue', 'pipeline'],
+      period: 'monthly',
+      visualization: 'chart'
+    }
+  },
+  {
+    type: 'google-sheets',
+    label: 'Google Sheets',
+    category: 'data',
+    color: 'nodeGreen',
+    defaultData: {
+      label: 'Google Sheets',
+      color: 'nodeGreen',
+      name: 'Leads Data Source',
+      sheetId: '',
+      range: 'A1:Z1000',
+      authentication: 'oauth',
+      refreshInterval: 'hourly'
     }
   },
   {

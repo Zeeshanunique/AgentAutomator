@@ -117,7 +117,16 @@ export default function Canvas() {
               stroke: '#CBD5E1',
               strokeWidth: 2,
             },
+            type: 'smoothstep',
           }}
+          connectionLineStyle={{
+            stroke: '#6366F1',
+            strokeWidth: 2,
+            strokeDasharray: '5,5',
+          }}
+          snapToGrid={true}
+          connectionRadius={40}
+          snapGrid={[16, 16]}
         >
           <Background color="#CBD5E1" gap={16} size={1} className="grid-canvas" />
           <Controls className="bg-gray-900 border border-gray-700 rounded-md overflow-hidden" />

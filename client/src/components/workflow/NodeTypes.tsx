@@ -353,6 +353,8 @@ const GenericNode = memo(({ data, type, id }: { data: any, type: string, id: str
           type="target"
           position={Position.Left}
           style={handleStyle}
+          id="target"
+          isConnectable={true}
           className="!w-6 !h-6 !-left-3 !transform !-translate-y-1/2 bg-gray-800 border-2 flex items-center justify-center"
         >
           <div className={`w-2 h-2 bg-${color} rounded-full`}></div>
@@ -366,6 +368,8 @@ const GenericNode = memo(({ data, type, id }: { data: any, type: string, id: str
           type="source"
           position={Position.Right}
           style={handleStyle}
+          id="source"
+          isConnectable={true}
           className="!w-6 !h-6 !-right-3 !transform !-translate-y-1/2 bg-gray-800 border-2 flex items-center justify-center"
         >
           <div className={`w-2 h-2 bg-${color} rounded-full`}></div>
@@ -377,18 +381,33 @@ const GenericNode = memo(({ data, type, id }: { data: any, type: string, id: str
 
 // Create a map of all custom node types
 export const CustomNodes = {
+  // AI models
   gpt4: (props: any) => <GenericNode {...props} id={props.id} type="gpt4" />,
   claude: (props: any) => <GenericNode {...props} id={props.id} type="claude" />,
   'custom-llm': (props: any) => <GenericNode {...props} id={props.id} type="custom-llm" />,
+  
+  // Marketing nodes
   'ad-generator': (props: any) => <GenericNode {...props} id={props.id} type="ad-generator" />,
   'campaign-planner': (props: any) => <GenericNode {...props} id={props.id} type="campaign-planner" />,
   'content-writer': (props: any) => <GenericNode {...props} id={props.id} type="content-writer" />,
+  
+  // Sales nodes
+  'lead-generator': (props: any) => <GenericNode {...props} id={props.id} type="lead-generator" />,
+  'outreach-sequence': (props: any) => <GenericNode {...props} id={props.id} type="outreach-sequence" />,
+  'sales-analytics': (props: any) => <GenericNode {...props} id={props.id} type="sales-analytics" />,
+  
+  // Data sources
+  'google-sheets': (props: any) => <GenericNode {...props} id={props.id} type="google-sheets" />,
   crm: (props: any) => <GenericNode {...props} id={props.id} type="crm" />,
   cms: (props: any) => <GenericNode {...props} id={props.id} type="cms" />,
   database: (props: any) => <GenericNode {...props} id={props.id} type="database" />,
+  
+  // Processing nodes
   filter: (props: any) => <GenericNode {...props} id={props.id} type="filter" />,
   transform: (props: any) => <GenericNode {...props} id={props.id} type="transform" />,
   merge: (props: any) => <GenericNode {...props} id={props.id} type="merge" />,
+  
+  // Output nodes
   email: (props: any) => <GenericNode {...props} id={props.id} type="email" />,
   social: (props: any) => <GenericNode {...props} id={props.id} type="social" />,
   webhook: (props: any) => <GenericNode {...props} id={props.id} type="webhook" />,
