@@ -46,6 +46,22 @@ export interface NodeData {
   // Webhook properties
   webhookUrl?: string;
   method?: string;
+  // Ad Generator properties
+  adType?: string;
+  audience?: string;
+  cta?: string;
+  industryVertical?: string;
+  // Campaign Planner properties
+  campaignType?: string;
+  duration?: string;
+  channels?: string[];
+  budget?: number;
+  kpis?: string[];
+  // Content Writer properties
+  tone?: string;
+  targetWordCount?: number;
+  seoKeywords?: string[];
+  includeImages?: boolean;
   // Advanced settings
   streamResponse?: boolean;
   responseFormat?: string;

@@ -104,6 +104,79 @@ const NodeContent = ({ data, type, id }: { data: any, type: string, id: string }
             </div>
           </>
         )}
+        
+        {type === 'ad-generator' && (
+          <>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-gray-400">Platform</span>
+              <span className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded capitalize">{data.platform || "Facebook"}</span>
+            </div>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-gray-400">Ad Type</span>
+              <span className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded capitalize">{data.adType || "Image"}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400">Audience</span>
+              <span className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded capitalize">{data.audience || "Professionals"}</span>
+            </div>
+            <div className="flex items-center justify-between mt-3">
+              <span className="text-gray-400">Call to Action</span>
+              <span className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded">{data.cta || "Learn More"}</span>
+            </div>
+          </>
+        )}
+        
+        {type === 'campaign-planner' && (
+          <>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-gray-400">Campaign Type</span>
+              <span className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded capitalize">{data.campaignType?.replace('-', ' ') || "Product Launch"}</span>
+            </div>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-gray-400">Duration</span>
+              <span className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded">{data.duration || "4 weeks"}</span>
+            </div>
+            <div className="mb-3">
+              <span className="text-gray-400 block mb-1.5">Channels</span>
+              <div className="flex flex-wrap gap-1">
+                {(data.channels || ['email', 'social', 'paid-ads']).map((channel, index) => (
+                  <span key={index} className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded capitalize">
+                    {channel.replace('-', ' ')}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400">Budget</span>
+              <span className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded">${data.budget || 5000}</span>
+            </div>
+          </>
+        )}
+        
+        {type === 'content-writer' && (
+          <>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-gray-400">Content Type</span>
+              <span className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded capitalize">{data.contentType?.replace('-', ' ') || "Blog Post"}</span>
+            </div>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-gray-400">Tone</span>
+              <span className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded capitalize">{data.tone || "Professional"}</span>
+            </div>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-gray-400">Word Count</span>
+              <span className="font-mono text-xs bg-gray-800 px-2 py-0.5 rounded">{data.targetWordCount || 1200}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400">Include Images</span>
+              <span className={`font-mono text-xs px-2 py-0.5 rounded ${
+                data.includeImages !== false ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'
+              }`}>
+                {data.includeImages !== false ? 'Yes' : 'No'}
+              </span>
+            </div>
+          </>
+        )}
 
         {type === 'crm' && (
           <>
@@ -307,6 +380,9 @@ export const CustomNodes = {
   gpt4: (props: any) => <GenericNode {...props} id={props.id} type="gpt4" />,
   claude: (props: any) => <GenericNode {...props} id={props.id} type="claude" />,
   'custom-llm': (props: any) => <GenericNode {...props} id={props.id} type="custom-llm" />,
+  'ad-generator': (props: any) => <GenericNode {...props} id={props.id} type="ad-generator" />,
+  'campaign-planner': (props: any) => <GenericNode {...props} id={props.id} type="campaign-planner" />,
+  'content-writer': (props: any) => <GenericNode {...props} id={props.id} type="content-writer" />,
   crm: (props: any) => <GenericNode {...props} id={props.id} type="crm" />,
   cms: (props: any) => <GenericNode {...props} id={props.id} type="cms" />,
   database: (props: any) => <GenericNode {...props} id={props.id} type="database" />,

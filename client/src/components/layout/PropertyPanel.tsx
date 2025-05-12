@@ -142,6 +142,229 @@ export default function PropertyPanel() {
                 </div>
               </>
             )}
+            
+            {selectedNode.type === 'ad-generator' && (
+              <>
+                <div>
+                  <Label htmlFor="platform" className="block text-sm font-medium mb-1">Platform</Label>
+                  <Select
+                    value={localNodeData.platform || 'facebook'}
+                    onValueChange={(value) => handleChange('platform', value)}
+                  >
+                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
+                      <SelectValue placeholder="Select platform" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="facebook">Facebook</SelectItem>
+                      <SelectItem value="instagram">Instagram</SelectItem>
+                      <SelectItem value="linkedin">LinkedIn</SelectItem>
+                      <SelectItem value="twitter">Twitter/X</SelectItem>
+                      <SelectItem value="tiktok">TikTok</SelectItem>
+                      <SelectItem value="google">Google Ads</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="ad-type" className="block text-sm font-medium mb-1">Ad Type</Label>
+                  <Select
+                    value={localNodeData.adType || 'image'}
+                    onValueChange={(value) => handleChange('adType', value)}
+                  >
+                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
+                      <SelectValue placeholder="Select ad type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="image">Image Ad</SelectItem>
+                      <SelectItem value="video">Video Ad</SelectItem>
+                      <SelectItem value="carousel">Carousel</SelectItem>
+                      <SelectItem value="story">Story Ad</SelectItem>
+                      <SelectItem value="text">Text Ad</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="audience" className="block text-sm font-medium mb-1">Target Audience</Label>
+                  <Select
+                    value={localNodeData.audience || 'professionals'}
+                    onValueChange={(value) => handleChange('audience', value)}
+                  >
+                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
+                      <SelectValue placeholder="Select audience" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="professionals">Professionals</SelectItem>
+                      <SelectItem value="students">Students</SelectItem>
+                      <SelectItem value="parents">Parents</SelectItem>
+                      <SelectItem value="executives">Executives</SelectItem>
+                      <SelectItem value="small-business">Small Business Owners</SelectItem>
+                      <SelectItem value="enterprise">Enterprise</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="cta" className="block text-sm font-medium mb-1">Call to Action</Label>
+                  <Select
+                    value={localNodeData.cta || 'learn-more'}
+                    onValueChange={(value) => handleChange('cta', value)}
+                  >
+                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
+                      <SelectValue placeholder="Select CTA" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="learn-more">Learn More</SelectItem>
+                      <SelectItem value="sign-up">Sign Up</SelectItem>
+                      <SelectItem value="contact-us">Contact Us</SelectItem>
+                      <SelectItem value="buy-now">Buy Now</SelectItem>
+                      <SelectItem value="download">Download</SelectItem>
+                      <SelectItem value="get-started">Get Started</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="industry" className="block text-sm font-medium mb-1">Industry Vertical</Label>
+                  <Select
+                    value={localNodeData.industryVertical || 'technology'}
+                    onValueChange={(value) => handleChange('industryVertical', value)}
+                  >
+                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
+                      <SelectValue placeholder="Select industry" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="technology">Technology</SelectItem>
+                      <SelectItem value="finance">Finance</SelectItem>
+                      <SelectItem value="healthcare">Healthcare</SelectItem>
+                      <SelectItem value="education">Education</SelectItem>
+                      <SelectItem value="ecommerce">E-commerce</SelectItem>
+                      <SelectItem value="real-estate">Real Estate</SelectItem>
+                      <SelectItem value="hospitality">Hospitality</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </>
+            )}
+            
+            {selectedNode.type === 'campaign-planner' && (
+              <>
+                <div>
+                  <Label htmlFor="campaign-type" className="block text-sm font-medium mb-1">Campaign Type</Label>
+                  <Select
+                    value={localNodeData.campaignType || 'product-launch'}
+                    onValueChange={(value) => handleChange('campaignType', value)}
+                  >
+                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
+                      <SelectValue placeholder="Select campaign type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="product-launch">Product Launch</SelectItem>
+                      <SelectItem value="lead-generation">Lead Generation</SelectItem>
+                      <SelectItem value="brand-awareness">Brand Awareness</SelectItem>
+                      <SelectItem value="event-promotion">Event Promotion</SelectItem>
+                      <SelectItem value="sales-promotion">Sales Promotion</SelectItem>
+                      <SelectItem value="content-distribution">Content Distribution</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="duration" className="block text-sm font-medium mb-1">Duration</Label>
+                  <Select
+                    value={localNodeData.duration || '4 weeks'}
+                    onValueChange={(value) => handleChange('duration', value)}
+                  >
+                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
+                      <SelectValue placeholder="Select duration" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1 week">1 Week</SelectItem>
+                      <SelectItem value="2 weeks">2 Weeks</SelectItem>
+                      <SelectItem value="4 weeks">4 Weeks</SelectItem>
+                      <SelectItem value="6 weeks">6 Weeks</SelectItem>
+                      <SelectItem value="3 months">3 Months</SelectItem>
+                      <SelectItem value="6 months">6 Months</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="budget" className="block text-sm font-medium mb-1">Budget ($)</Label>
+                  <Input
+                    id="budget"
+                    type="number"
+                    value={localNodeData.budget || 5000}
+                    onChange={(e) => handleChange('budget', parseInt(e.target.value))}
+                    className="w-full bg-gray-800 border-gray-700"
+                  />
+                </div>
+              </>
+            )}
+            
+            {selectedNode.type === 'content-writer' && (
+              <>
+                <div>
+                  <Label htmlFor="content-type" className="block text-sm font-medium mb-1">Content Type</Label>
+                  <Select
+                    value={localNodeData.contentType || 'blog-post'}
+                    onValueChange={(value) => handleChange('contentType', value)}
+                  >
+                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
+                      <SelectValue placeholder="Select content type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="blog-post">Blog Post</SelectItem>
+                      <SelectItem value="social-post">Social Media Post</SelectItem>
+                      <SelectItem value="email">Email</SelectItem>
+                      <SelectItem value="landing-page">Landing Page</SelectItem>
+                      <SelectItem value="press-release">Press Release</SelectItem>
+                      <SelectItem value="product-description">Product Description</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="tone" className="block text-sm font-medium mb-1">Tone</Label>
+                  <Select
+                    value={localNodeData.tone || 'professional'}
+                    onValueChange={(value) => handleChange('tone', value)}
+                  >
+                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
+                      <SelectValue placeholder="Select tone" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="professional">Professional</SelectItem>
+                      <SelectItem value="casual">Casual</SelectItem>
+                      <SelectItem value="friendly">Friendly</SelectItem>
+                      <SelectItem value="authoritative">Authoritative</SelectItem>
+                      <SelectItem value="humorous">Humorous</SelectItem>
+                      <SelectItem value="inspirational">Inspirational</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="word-count" className="block text-sm font-medium mb-1">Target Word Count</Label>
+                  <Input
+                    id="word-count"
+                    type="number"
+                    value={localNodeData.targetWordCount || 1200}
+                    onChange={(e) => handleChange('targetWordCount', parseInt(e.target.value))}
+                    className="w-full bg-gray-800 border-gray-700"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="include-images" className="text-sm">Include Images</Label>
+                  <Switch
+                    id="include-images"
+                    checked={localNodeData.includeImages !== false}
+                    onCheckedChange={(checked) => handleChange('includeImages', checked)}
+                  />
+                </div>
+              </>
+            )}
 
             {selectedNode.type === 'crm' && (
               <>
