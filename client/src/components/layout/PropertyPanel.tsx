@@ -10,6 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { useWorkflowStore } from "@/lib/workflowStore";
 import { NodeData } from "@/types/workflow";
+import ContentGeneratorConfig from "@/components/nodes/ContentGeneratorConfig";
+import GoogleSheetsConfigPanel from "@/components/nodes/GoogleSheetsConfig";
+import LeadGeneratorConfig from "@/components/nodes/LeadGeneratorConfig";
 
 export default function PropertyPanel() {
   const { selectedNode, updateNodeData, setShowPropertyPanel } = useWorkflowStore();
@@ -329,6 +332,25 @@ export default function PropertyPanel() {
                 </div>
                 
                 <GoogleSheetsConfigPanel
+                  nodeId={selectedNode.id}
+                  initialData={localNodeData}
+                  onUpdate={(newData) => {
+                    for (const [key, value] of Object.entries(newData)) {
+                      handleChange(key, value);
+                    }
+                  }}
+                />
+              </div>
+            )}
+            
+            {selectedNode.type === 'lead-generator' && (
+              <div className="mt-2">
+                <div className="mb-4 pb-4 border-b border-gray-700">
+                  <h3 className="font-medium">Lead Generator Configuration</h3>
+                  <p className="text-sm text-gray-400">Generate qualified leads based on your criteria</p>
+                </div>
+                
+                <LeadGeneratorConfig
                   nodeId={selectedNode.id}
                   initialData={localNodeData}
                   onUpdate={(newData) => {

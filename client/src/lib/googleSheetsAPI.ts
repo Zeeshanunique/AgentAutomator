@@ -48,13 +48,14 @@ export async function fetchSheetData(config: GoogleSheetsConfig): Promise<Spread
   try {
     // In a real implementation, we would call the Google Sheets API directly
     // For this demo, we'll use our server as a proxy
-    const response = await apiRequest({
-      method: 'POST',
-      path: '/api/integrations/google-sheets/fetch',
-      body: config
-    });
+    const response = await apiRequest('POST', '/api/integrations/google-sheets/fetch', config);
+    const data = await response.json();
     
-    return response.data;
+    if (!data || !data.data) {
+      throw new Error('Invalid response from server');
+    }
+    
+    return data.data;
   } catch (error) {
     console.error('Error fetching Google Sheets data:', error);
     throw new Error('Failed to fetch data from Google Sheets');
