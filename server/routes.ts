@@ -216,6 +216,79 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Google Sheets Integration
+  apiRouter.post("/integrations/google-sheets/fetch", async (req, res) => {
+    try {
+      const { sheetId, range } = req.body;
+      
+      // Validate required parameters
+      if (!sheetId) {
+        return res.status(400).json({ error: { message: "Missing sheet ID" } });
+      }
+
+      // For our demo, we'll return some sample data
+      // In a real implementation, this would call the Google Sheets API
+      const sampleData = [
+        {
+          name: "John Smith",
+          company: "Acme Corp",
+          email: "john.smith@acmecorp.com",
+          phone: "555-123-4567",
+          industry: "Technology",
+          leadSource: "Website",
+          leadScore: 85,
+          lastContact: "2023-10-15"
+        },
+        {
+          name: "Sarah Johnson",
+          company: "Global Industries",
+          email: "sarah.j@globalind.com",
+          phone: "555-987-6543",
+          industry: "Manufacturing",
+          leadSource: "LinkedIn",
+          leadScore: 72,
+          lastContact: "2023-11-02"
+        },
+        {
+          name: "Michael Chang",
+          company: "Innovate Solutions",
+          email: "mchang@innovatesol.com",
+          phone: "555-111-2222",
+          industry: "Technology",
+          leadSource: "Referral",
+          leadScore: 90,
+          lastContact: "2023-11-10"
+        },
+        {
+          name: "Emily Davis",
+          company: "Summit Healthcare",
+          email: "e.davis@summithc.org",
+          phone: "555-444-5555",
+          industry: "Healthcare",
+          leadSource: "Trade Show",
+          leadScore: 68,
+          lastContact: "2023-10-28"
+        },
+        {
+          name: "Robert Wilson",
+          company: "Urban Financial",
+          email: "rwilson@urbanfin.com",
+          phone: "555-777-8888",
+          industry: "Finance",
+          leadSource: "Webinar",
+          leadScore: 76,
+          lastContact: "2023-11-05"
+        }
+      ];
+      
+      // Send sample data response
+      res.json({ data: sampleData });
+    } catch (error) {
+      console.error("Google Sheets integration error:", error);
+      res.status(500).json({ error: { message: "Failed to fetch data from Google Sheets" } });
+    }
+  });
+
   // Mount the API router
   app.use("/api", apiRouter);
 

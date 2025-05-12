@@ -303,67 +303,41 @@ export default function PropertyPanel() {
             )}
             
             {selectedNode.type === 'content-writer' && (
-              <>
-                <div>
-                  <Label htmlFor="content-type" className="block text-sm font-medium mb-1">Content Type</Label>
-                  <Select
-                    value={localNodeData.contentType || 'blog-post'}
-                    onValueChange={(value) => handleChange('contentType', value)}
-                  >
-                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
-                      <SelectValue placeholder="Select content type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="blog-post">Blog Post</SelectItem>
-                      <SelectItem value="social-post">Social Media Post</SelectItem>
-                      <SelectItem value="email">Email</SelectItem>
-                      <SelectItem value="landing-page">Landing Page</SelectItem>
-                      <SelectItem value="press-release">Press Release</SelectItem>
-                      <SelectItem value="product-description">Product Description</SelectItem>
-                    </SelectContent>
-                  </Select>
+              <div className="mt-2">
+                <div className="mb-4 pb-4 border-b border-gray-700">
+                  <h3 className="font-medium">Content Writer Configuration</h3>
+                  <p className="text-sm text-gray-400">Generate blog posts, emails, and other content</p>
                 </div>
-
-                <div>
-                  <Label htmlFor="tone" className="block text-sm font-medium mb-1">Tone</Label>
-                  <Select
-                    value={localNodeData.tone || 'professional'}
-                    onValueChange={(value) => handleChange('tone', value)}
-                  >
-                    <SelectTrigger className="w-full bg-gray-800 border-gray-700">
-                      <SelectValue placeholder="Select tone" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="professional">Professional</SelectItem>
-                      <SelectItem value="casual">Casual</SelectItem>
-                      <SelectItem value="friendly">Friendly</SelectItem>
-                      <SelectItem value="authoritative">Authoritative</SelectItem>
-                      <SelectItem value="humorous">Humorous</SelectItem>
-                      <SelectItem value="inspirational">Inspirational</SelectItem>
-                    </SelectContent>
-                  </Select>
+                
+                <ContentGeneratorConfig
+                  nodeId={selectedNode.id}
+                  initialData={localNodeData}
+                  onUpdate={(newData) => {
+                    for (const [key, value] of Object.entries(newData)) {
+                      handleChange(key, value);
+                    }
+                  }}
+                />
+              </div>
+            )}
+            
+            {selectedNode.type === 'google-sheets' && (
+              <div className="mt-2">
+                <div className="mb-4 pb-4 border-b border-gray-700">
+                  <h3 className="font-medium">Google Sheets Integration</h3>
+                  <p className="text-sm text-gray-400">Connect to Google Sheets to import lead data</p>
                 </div>
-
-                <div>
-                  <Label htmlFor="word-count" className="block text-sm font-medium mb-1">Target Word Count</Label>
-                  <Input
-                    id="word-count"
-                    type="number"
-                    value={localNodeData.targetWordCount || 1200}
-                    onChange={(e) => handleChange('targetWordCount', parseInt(e.target.value))}
-                    className="w-full bg-gray-800 border-gray-700"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="include-images" className="text-sm">Include Images</Label>
-                  <Switch
-                    id="include-images"
-                    checked={localNodeData.includeImages !== false}
-                    onCheckedChange={(checked) => handleChange('includeImages', checked)}
-                  />
-                </div>
-              </>
+                
+                <GoogleSheetsConfigPanel
+                  nodeId={selectedNode.id}
+                  initialData={localNodeData}
+                  onUpdate={(newData) => {
+                    for (const [key, value] of Object.entries(newData)) {
+                      handleChange(key, value);
+                    }
+                  }}
+                />
+              </div>
             )}
 
             {selectedNode.type === 'crm' && (
