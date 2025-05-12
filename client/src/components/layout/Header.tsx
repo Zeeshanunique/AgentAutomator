@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useWorkflowStore } from "@/lib/workflowStore";
-import { Moon, Sun, HelpCircle, SaveAll } from "lucide-react";
+import { Moon, Sun, HelpCircle, SaveAll, Settings } from "lucide-react";
 import ApiKeyDialog from "@/components/settings/ApiKeyDialog";
 
 type HeaderProps = {

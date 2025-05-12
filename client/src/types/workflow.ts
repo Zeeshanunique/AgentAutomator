@@ -110,6 +110,54 @@ export const allNodeDefinitions: NodeDefinition[] = [
     }
   },
   {
+    type: 'ad-generator',
+    label: 'Ad Generator',
+    category: 'ai',
+    color: 'primary',
+    defaultData: {
+      label: 'Ad Generator',
+      color: 'primary',
+      name: 'Social Media Ad Creator',
+      platform: 'facebook',
+      adType: 'image',
+      audience: 'professionals',
+      cta: 'Learn More',
+      industryVertical: 'technology'
+    }
+  },
+  {
+    type: 'campaign-planner',
+    label: 'Campaign Planner',
+    category: 'ai',
+    color: 'nodeBlue',
+    defaultData: {
+      label: 'Campaign Planner',
+      color: 'nodeBlue',
+      name: 'Marketing Campaign Planner',
+      campaignType: 'product-launch',
+      duration: '4 weeks',
+      channels: ['email', 'social', 'paid-ads'],
+      budget: 5000,
+      kpis: ['leads', 'conversions', 'engagement']
+    }
+  },
+  {
+    type: 'content-writer',
+    label: 'Content Writer',
+    category: 'ai',
+    color: 'nodeAmber',
+    defaultData: {
+      label: 'Content Writer',
+      color: 'nodeAmber',
+      name: 'AI Content Creator',
+      contentType: 'blog-post',
+      tone: 'professional',
+      targetWordCount: 1200,
+      seoKeywords: [],
+      includeImages: true
+    }
+  },
+  {
     type: 'claude',
     label: 'Claude Agent',
     category: 'ai',

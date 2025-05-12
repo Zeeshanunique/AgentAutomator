@@ -1,9 +1,37 @@
 import { memo } from 'react';
 import { Handle, Position } from 'reactflow';
 import { getNodeColor } from '@/types/workflow';
+import { useWorkflowStore } from '@/lib/workflowStore';
 
-const NodeContent = ({ data, type }: { data: any, type: string }) => {
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { Trash2, Copy, Edit, ExternalLink } from "lucide-react";
+
+const NodeContent = ({ data, type, id }: { data: any, type: string, id: string }) => {
   const color = getNodeColor(type);
+  const { setSelectedNode, setShowPropertyPanel } = useWorkflowStore();
+  
+  const handleEdit = () => {
+    // Find the node in the store and set it as selected
+    const nodes = useWorkflowStore.getState().nodes;
+    const node = nodes.find((node: any) => node.id === id);
+    if (node) {
+      setSelectedNode(node);
+      setShowPropertyPanel(true);
+    }
+  };
+  
+  const deleteNode = (nodeId: string) => {
+    useWorkflowStore.getState().deleteNode(nodeId);
+  };
+  
+  const duplicateNode = (nodeId: string) => {
+    useWorkflowStore.getState().duplicateNode(nodeId);
+  };
   
   return (
     <div className="bg-gray-900 border border-gray-700 rounded-md shadow-lg w-full">
@@ -14,11 +42,38 @@ const NodeContent = ({ data, type }: { data: any, type: string }) => {
           <span className="font-medium text-sm">{data.label}</span>
         </div>
         <div className="flex space-x-1">
-          <button className="text-gray-400 hover:text-white p-0.5">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-            </svg>
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="text-gray-400 hover:text-white p-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                </svg>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-gray-800 border-gray-700 text-gray-200">
+              <DropdownMenuItem 
+                className="flex items-center hover:bg-gray-700"
+                onClick={handleEdit}
+              >
+                <Edit className="mr-2 h-4 w-4" />
+                <span>Edit</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className="flex items-center hover:bg-gray-700"
+                onClick={() => duplicateNode && duplicateNode(id)}
+              >
+                <Copy className="mr-2 h-4 w-4" />
+                <span>Duplicate</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className="flex items-center hover:bg-gray-700 text-red-400"
+                onClick={() => deleteNode && deleteNode(id)}
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                <span>Delete</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       
@@ -209,7 +264,7 @@ const NodeContent = ({ data, type }: { data: any, type: string }) => {
 };
 
 // Generic node component that wraps all node types
-const GenericNode = memo(({ data, type }: { data: any, type: string }) => {
+const GenericNode = memo(({ data, type, id }: { data: any, type: string, id: string }) => {
   // Determine which handles to show based on node type
   const showInputHandle = !['crm', 'cms', 'database'].includes(type);
   const showOutputHandle = !['email', 'webhook', 'social'].includes(type);
@@ -231,7 +286,7 @@ const GenericNode = memo(({ data, type }: { data: any, type: string }) => {
         </Handle>
       )}
       
-      <NodeContent data={data} type={type} />
+      <NodeContent data={data} type={type} id={id} />
       
       {showOutputHandle && (
         <Handle
@@ -249,16 +304,16 @@ const GenericNode = memo(({ data, type }: { data: any, type: string }) => {
 
 // Create a map of all custom node types
 export const CustomNodes = {
-  gpt4: (props: any) => <GenericNode {...props} type="gpt4" />,
-  claude: (props: any) => <GenericNode {...props} type="claude" />,
-  'custom-llm': (props: any) => <GenericNode {...props} type="custom-llm" />,
-  crm: (props: any) => <GenericNode {...props} type="crm" />,
-  cms: (props: any) => <GenericNode {...props} type="cms" />,
-  database: (props: any) => <GenericNode {...props} type="database" />,
-  filter: (props: any) => <GenericNode {...props} type="filter" />,
-  transform: (props: any) => <GenericNode {...props} type="transform" />,
-  merge: (props: any) => <GenericNode {...props} type="merge" />,
-  email: (props: any) => <GenericNode {...props} type="email" />,
-  social: (props: any) => <GenericNode {...props} type="social" />,
-  webhook: (props: any) => <GenericNode {...props} type="webhook" />,
+  gpt4: (props: any) => <GenericNode {...props} id={props.id} type="gpt4" />,
+  claude: (props: any) => <GenericNode {...props} id={props.id} type="claude" />,
+  'custom-llm': (props: any) => <GenericNode {...props} id={props.id} type="custom-llm" />,
+  crm: (props: any) => <GenericNode {...props} id={props.id} type="crm" />,
+  cms: (props: any) => <GenericNode {...props} id={props.id} type="cms" />,
+  database: (props: any) => <GenericNode {...props} id={props.id} type="database" />,
+  filter: (props: any) => <GenericNode {...props} id={props.id} type="filter" />,
+  transform: (props: any) => <GenericNode {...props} id={props.id} type="transform" />,
+  merge: (props: any) => <GenericNode {...props} id={props.id} type="merge" />,
+  email: (props: any) => <GenericNode {...props} id={props.id} type="email" />,
+  social: (props: any) => <GenericNode {...props} id={props.id} type="social" />,
+  webhook: (props: any) => <GenericNode {...props} id={props.id} type="webhook" />,
 };

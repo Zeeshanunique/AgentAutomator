@@ -52,6 +52,8 @@ interface WorkflowState {
   addNode: (nodeDefinition: NodeDefinition, position: XYPosition) => void;
   updateNodeData: (nodeId: string, data: NodeData) => void;
   deleteSelectedElements: () => void;
+  deleteNode: (nodeId: string) => void;
+  duplicateNode: (nodeId: string) => void;
   
   // Methods for UI state management
   setSidebarCollapsed: (collapsed: boolean) => void;
@@ -198,6 +200,43 @@ export const useWorkflowStore = create<WorkflowState>((set, get) => ({
     set({
       nodes: get().nodes.filter(node => !node.selected),
       edges: get().edges.filter(edge => !edge.selected)
+    });
+  },
+  
+  deleteNode: (nodeId: string) => {
+    const { saveState } = get();
+    saveState();
+    
+    // Remove the node
+    set({
+      nodes: get().nodes.filter(node => node.id !== nodeId),
+      // Also remove any connected edges
+      edges: get().edges.filter(edge => 
+        edge.source !== nodeId && edge.target !== nodeId
+      )
+    });
+  },
+  
+  duplicateNode: (nodeId: string) => {
+    const { saveState } = get();
+    saveState();
+    
+    const sourceNode = get().nodes.find(node => node.id === nodeId);
+    if (!sourceNode) return;
+    
+    // Create a new node based on the source node
+    const newNode: Node = {
+      id: `${sourceNode.type}-${nanoid(6)}`,
+      type: sourceNode.type,
+      position: {
+        x: sourceNode.position.x + 50,
+        y: sourceNode.position.y + 50
+      },
+      data: { ...sourceNode.data }
+    };
+    
+    set({
+      nodes: [...get().nodes, newNode]
     });
   },
   
