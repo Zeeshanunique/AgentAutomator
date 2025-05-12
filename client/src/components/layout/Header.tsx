@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useWorkflowStore } from "@/lib/workflowStore";
-import { Moon, Sun, Settings, HelpCircle, SaveAll } from "lucide-react";
+import { Moon, Sun, HelpCircle, SaveAll } from "lucide-react";
+import ApiKeyDialog from "@/components/settings/ApiKeyDialog";
 
 type HeaderProps = {
   title: string;
@@ -70,13 +71,11 @@ export default function Header({ title, workflowName, user, showSaveButton = tru
     <header className="bg-gray-900 border-b border-gray-700 py-2 px-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <Link href="/">
-            <a className="flex items-center space-x-3">
-              <svg className="w-8 h-8 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-              </svg>
-              <h1 className="text-xl font-semibold">{title}</h1>
-            </a>
+          <Link href="/" className="flex items-center space-x-3">
+            <svg className="w-8 h-8 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg>
+            <h1 className="text-xl font-semibold">{title}</h1>
           </Link>
           <span className="text-sm bg-secondary/10 text-secondary px-2 py-0.5 rounded">Beta</span>
         </div>
@@ -86,9 +85,7 @@ export default function Header({ title, workflowName, user, showSaveButton = tru
             <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
               {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
-            <Button variant="ghost" size="icon" aria-label="Settings">
-              <Settings className="h-5 w-5" />
-            </Button>
+            <ApiKeyDialog />
             <Button variant="ghost" size="icon" aria-label="Help">
               <HelpCircle className="h-5 w-5" />
             </Button>

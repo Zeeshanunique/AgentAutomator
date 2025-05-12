@@ -8,6 +8,96 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // API Routes for the workflow builder
   const apiRouter = express.Router();
   
+  // API settings and keys
+  let openaiApiKey: string | null = null;
+
+  // API key settings endpoint
+  apiRouter.post("/settings/apikey", async (req, res) => {
+    try {
+      const { openai } = req.body;
+      if (openai) {
+        openaiApiKey = openai;
+        res.status(200).json({ message: "API key saved successfully" });
+      } else {
+        res.status(400).json({ message: "Invalid API key" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Failed to save API key" });
+    }
+  });
+
+  // Get current API key status (masked)
+  apiRouter.get("/settings/apikey", async (req, res) => {
+    try {
+      res.json({ 
+        hasOpenAI: !!openaiApiKey 
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch API key status" });
+    }
+  });
+
+  // OpenAI completion endpoint (server-side proxy)
+  apiRouter.post("/ai/completion", async (req, res) => {
+    if (!openaiApiKey) {
+      return res.status(400).json({ error: { message: "OpenAI API key not configured on server" } });
+    }
+
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${openaiApiKey}`
+        },
+        body: JSON.stringify(req.body)
+      });
+      
+      const data = await response.json();
+      if (!response.ok) {
+        return res.status(response.status).json({ error: data.error });
+      }
+      
+      res.json(data);
+    } catch (error: any) {
+      res.status(500).json({ error: { message: error.message || "Failed to call OpenAI API" } });
+    }
+  });
+
+  // OpenAI image generation endpoint (server-side proxy)
+  apiRouter.post("/ai/image", async (req, res) => {
+    if (!openaiApiKey) {
+      return res.status(400).json({ error: { message: "OpenAI API key not configured on server" } });
+    }
+
+    try {
+      const { prompt } = req.body;
+      const response = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${openaiApiKey}`
+        },
+        body: JSON.stringify({
+          model: "dall-e-3",
+          prompt,
+          n: 1,
+          size: "1024x1024",
+          quality: "standard",
+        })
+      });
+      
+      const data = await response.json();
+      if (!response.ok) {
+        return res.status(response.status).json({ error: data.error });
+      }
+      
+      res.json(data);
+    } catch (error: any) {
+      res.status(500).json({ error: { message: error.message || "Failed to call OpenAI API" } });
+    }
+  });
+  
   // Get all workflows
   apiRouter.get("/workflows", async (req, res) => {
     try {
