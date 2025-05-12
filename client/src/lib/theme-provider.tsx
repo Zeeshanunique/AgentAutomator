@@ -46,6 +46,9 @@ export function ThemeProvider({
     }
     
     root.classList.add(theme);
+    
+    // Force an update to all tailwind components that rely on these classes
+    document.dispatchEvent(new CustomEvent('theme-change', { detail: theme }));
   }, [theme]);
 
   const value = {

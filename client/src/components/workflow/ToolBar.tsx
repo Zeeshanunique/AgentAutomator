@@ -77,22 +77,6 @@ export default function ToolBar() {
             <Scissors className="h-5 w-5" />
           </Button>
         </div>
-
-        <Separator orientation="vertical" className="h-6 bg-gray-700" />
-
-        <Select value={zoomLevel} onValueChange={handleZoomChange}>
-          <SelectTrigger className="w-[160px] bg-gray-800 border-gray-700">
-            <SelectValue placeholder="Zoom level" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="50%">50%</SelectItem>
-            <SelectItem value="75%">75%</SelectItem>
-            <SelectItem value="100%">100%</SelectItem>
-            <SelectItem value="125%">125%</SelectItem>
-            <SelectItem value="150%">150%</SelectItem>
-            <SelectItem value="200%">200%</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
 
       <div className="flex items-center space-x-2">
