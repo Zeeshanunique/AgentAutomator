@@ -3,6 +3,8 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertWorkflowSchema, insertApiKeySchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
+import { getAgents, getAgentById, createAgent, updateAgent, deleteAgent, saveAgentApiKey, createAgentTask, runAgent } from "./agents";
+import { getConnections, createConnection, deleteConnection, updateWorkflowConnections } from "./connections";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API Routes for the workflow builder
@@ -288,6 +290,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: { message: "Failed to fetch data from Google Sheets" } });
     }
   });
+
+  // Agent endpoints
+  apiRouter.get("/agents", getAgents);
+  apiRouter.get("/agents/:id", getAgentById);
+  apiRouter.post("/agents", createAgent);
+  apiRouter.put("/agents/:id", updateAgent);
+  apiRouter.delete("/agents/:id", deleteAgent);
+  apiRouter.post("/agents/api-keys", saveAgentApiKey);
+  apiRouter.post("/agents/:id/run", runAgent);
+  apiRouter.post("/agents/tasks", createAgentTask);
+  
+  // Connection endpoints
+  apiRouter.get("/connections/:workflowId", getConnections);
+  apiRouter.post("/connections", createConnection);
+  apiRouter.delete("/connections/:id", deleteConnection);
+  apiRouter.put("/connections/workflow/:workflowId", updateWorkflowConnections);
 
   // Mount the API router
   app.use("/api", apiRouter);
